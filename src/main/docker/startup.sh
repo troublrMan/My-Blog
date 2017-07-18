@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin
 set -e
 
 #因为要等待mysql用户和权限设置完成

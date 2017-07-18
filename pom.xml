@@ -197,6 +197,7 @@
                 </executions>
                 <configuration>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerHost>http://223.167.85.2:46686</dockerHost>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <resources>
                         <resource>

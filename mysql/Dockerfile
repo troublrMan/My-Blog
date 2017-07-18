@@ -1,4 +1,4 @@
-FROM mysql:5.7
+FROM mysql:5.6
 
 #这条语句可有可无
 ENV MYSQL_DATABASE test
