@@ -60,6 +60,11 @@ public class WebConst {
     public static Integer MAX_FILE_SIZE = 1048576;
 
     /**
+     * 上传到七牛云文件最大10M
+     */
+    public static Integer MAX_FILE_SIZE_QINIU= 10485760;
+
+    /**
      * 要过滤的ip列表
      */
     public static final Set<String> BLOCK_IPS = new HashSet<>(16);

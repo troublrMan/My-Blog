@@ -12,6 +12,7 @@ import com.my.blog.website.modal.Vo.UserVo;
 import com.my.blog.website.service.IAttachService;
 import com.my.blog.website.service.ILogService;
 import com.my.blog.website.utils.Commons;
+import com.my.blog.website.utils.QiniuUploadUtil;
 import com.my.blog.website.utils.TaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -119,6 +121,39 @@ public class AttachController extends BaseController {
             return RestResponseBo.fail(msg);
         }
         return RestResponseBo.ok();
+    }
+
+    /**
+     * 上传文件到七牛云
+     *
+     * @param
+     */
+    @PostMapping(value = "upload/qiniu")
+    @ResponseBody
+    @Transactional(rollbackFor = TipException.class)
+    public RestResponseBo uploadToQiniu(HttpServletRequest request, @RequestParam("file") MultipartFile[] multipartFiles,HttpServletResponse response) throws IOException {
+        UserVo users = this.user(request);
+        Integer uid = users.getUid();
+        List<String> errorFiles = new ArrayList<>();
+        String key ="";
+        try {
+            for (MultipartFile multipartFile : multipartFiles) {
+                String fname = multipartFile.getOriginalFilename();
+                if (multipartFile.getSize() <= WebConst.MAX_FILE_SIZE_QINIU) {
+                   // String fkey = TaleUtils.getFileKey(fname);
+                    String ftype = TaleUtils.isImage(multipartFile.getInputStream()) ? Types.IMAGE.getType() : Types.FILE.getType();
+                    //存储到七牛云
+                    key = QiniuUploadUtil.uploadToQiniu(multipartFile);
+                    errorFiles.add(key);
+                    attachService.save(fname, key, ftype, uid);
+                } else {
+                    errorFiles.add(fname);
+                }
+            }
+        } catch (Exception e) {
+            return RestResponseBo.fail();
+        }
+        return RestResponseBo.ok(errorFiles);
     }
 
 }

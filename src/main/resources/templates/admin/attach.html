@@ -84,9 +84,9 @@
                                              th:title="${attach.fname}"/>
                                     </a>
                                     <div class="clearfix m-t-10">
-                <span class="attach-text" data-toggle="tooltip" data-placement="top"
-                      th:attr="data-original-title=${attach.fname}"
-                      th:text="${commons.substr(attach.fname, 12)}"></span>
+                                        <span class="attach-text" data-toggle="tooltip" data-placement="top"
+                                              th:attr="data-original-title=${attach.fname}"
+                                              th:text="${commons.substr(attach.fname, 12)}"></span>
                                     </div>
                                     <div class="clearfix">
                                         <button th:attr="url=${commons.site_url(attach.fkey)}" type="button"
@@ -119,8 +119,8 @@
 
     $("#dropzone").dropzone({
         paramName: "file",
-        url: "/admin/attach/upload",
-        maxFilesize: 1,
+        url: "/admin/attach/upload/qiniu",
+        maxFilesize: 10,
         init: function () {
             this.on("success", function (file, msg) {
                 console.log(file);
