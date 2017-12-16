@@ -1,4 +1,4 @@
-# My Blog
+# 新的Blog
 
 fork from [Tale](https://github.com/otale/tale)
 
